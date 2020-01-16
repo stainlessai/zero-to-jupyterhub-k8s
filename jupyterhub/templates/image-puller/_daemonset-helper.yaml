@@ -50,7 +50,7 @@ spec:
       automountServiceAccountToken: false
       {{- if .Values.singleuser.imagePullSecret.enabled }}
       imagePullSecrets:
-        - name: {{ if .hook -}} hook- {{- end -}} singleuser-image-credentials
+        - name: {{ if .Values.singleuser.imagePullSecret.useExistingSecret }}{{ tpl .Values.singleuser.imagePullSecret.useExistingSecret . }}{{ else }}{{ ternary "hook-singleuser-image-credentials" "singleuser-image-credentials" .hook }}{{ end }}
       {{- end }}
       initContainers:
         - name: image-pull-singleuser

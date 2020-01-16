@@ -177,19 +177,22 @@ component: {{ include "jupyterhub.componentLabel" . }}
 {{- end }}
 
 {{- define "jupyterhub.dockersingleuserconfigjson.yaml" -}}
+{{- $root := . }}
+{{- if and .Values.singleuser.imagePullSecret.username .Values.singleuser.imagePullSecret.password }}
 {{- with .Values.singleuser.imagePullSecret -}}
 {
   "auths": {
-    {{ .registry | default "https://index.docker.io/v1/" | quote }}: {
-      "username": {{ .username | quote }},
-      "password": {{ .password | quote }},
+    {{ if .registry }}{{ tpl .registry $root | quote }}{{ else }}"https://index.docker.io/v1/"{{ end}}: {
+      "username": {{ tpl .username $root | quote }},
+      "password": {{ tpl .password $root | quote }},
       {{- if .email }}
-      "email": {{ .email | quote }},
+      "email": {{ tpl.email $root | quote }},
       {{- end }}
-      "auth": {{ (print .username ":" .password) | b64enc | quote }}
+      "auth": {{ (print (tpl .username $root) ":" (tpl .password $root)) | b64enc | quote }}
     }
   }
 }
+{{- end }}
 {{- end }}
 {{- end }}
 
@@ -208,19 +211,22 @@ component: {{ include "jupyterhub.componentLabel" . }}
 {{- end }}
 
 {{- define "jupyterhub.dockerhubconfigjson.yaml" -}}
+{{- $root := . }}
+{{- if and .Values.hub.imagePullSecret.username .Values.hub.imagePullSecret.password }}
 {{- with .Values.hub.imagePullSecret -}}
 {
   "auths": {
-    {{ .registry | default "https://index.docker.io/v1/" | quote }}: {
-      "username": {{ .username | quote }},
-      "password": {{ .password | quote }},
+    {{ if .registry }}{{ tpl .registry $root | quote }}{{ else }}"https://index.docker.io/v1/"{{ end}}: {
+      "username": {{ tpl .username $root | quote }},
+      "password": {{ tpl .password $root | quote }},
       {{- if .email }}
-      "email": {{ .email | quote }},
+      "email": {{ tpl .email $root | quote }},
       {{- end }}
-      "auth": {{ (print .username ":" .password) | b64enc | quote }}
+      "auth": {{ (print (tpl .username $root) ":" (tpl .password $root)) | b64enc | quote }}
     }
   }
 }
+{{- end }}
 {{- end }}
 {{- end }}
 

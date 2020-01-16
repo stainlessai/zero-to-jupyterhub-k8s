@@ -75,6 +75,12 @@ properties:
               Enable the creation of a Kubernetes Secret containing credentials
               to access a image registry. By enabling this, the hub pod will also be configured
               to use these credentials when it pulls its container image.
+          useExistingSecret:
+            type: string
+            description: |
+              Name of the secret resource in a same namespace containing credentials
+              to access a image registry. Supplying name as the value will overwrite
+              use of imagePullSecrets.username and imagePullSecrets.password
           registry:
             type: string
             description: |

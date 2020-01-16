@@ -15,7 +15,7 @@ spec:
     {{- .Values.hub.db.pvc.selector | toYaml | trimSuffix "\n" | nindent 4 }}
   {{- end }}
   {{- if typeIs "string" .Values.hub.db.pvc.storageClassName }}
-  storageClassName: {{ .Values.hub.db.pvc.storageClassName | quote }}
+  storageClassName: {{ tpl .Values.hub.db.pvc.storageClassName . | quote }}
   {{- end }}
   accessModes:
     {{- .Values.hub.db.pvc.accessModes | toYaml | trimSuffix "\n" | nindent 4 }}

@@ -58,7 +58,7 @@ spec:
         fsGroup: {{ .Values.hub.fsGid }}
       {{- if .Values.hub.imagePullSecret.enabled }}
       imagePullSecrets:
-        - name: hub-image-credentials
+        - name: {{ if .Values.hub.imagePullSecret.useExistingSecret }}{{ tpl .Values.hub.imagePullSecret.useExistingSecret . }}{{ else }}hub-image-credentials{{ end }}
       {{- end }}  
       containers:
         {{- if .Values.hub.extraContainers }}

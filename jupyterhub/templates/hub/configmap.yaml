@@ -5,6 +5,7 @@ metadata:
   labels:
     {{- include "jupyterhub.labels" . | nindent 4 }}
 data:
+{{- $root := . }}
 {{- $values := pick .Values "auth" "cull" "custom" "debug" "hub" "scheduling" "singleuser" }}
 {{- /* trim secret values. Update here if new secrets are added! */ -}}
 {{- /* make a copy of values.auth to avoid modifying the original */ -}}
@@ -33,4 +34,4 @@ data:
 {{- $_ := set $values "Chart" (dict "Name" .Chart.Name "Version" .Chart.Version) }}
 {{- $_ := set $values "Release" (pick .Release "Name" "Namespace" "Service") }}
   values.yaml: |
-    {{- $values | toYaml | nindent 4 }}
+    {{- tpl ($values | toYaml | nindent 4 ) $root }}

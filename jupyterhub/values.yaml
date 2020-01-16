@@ -53,6 +53,7 @@ hub:
   imagePullPolicy: IfNotPresent
   imagePullSecret:
     enabled: false
+    useExistingSecret:
     registry:
     username:
     email:
@@ -211,6 +212,7 @@ singleuser:
     pullPolicy: IfNotPresent
   imagePullSecret:
     enabled: false
+    useExistingSecret:
     registry:
     username:
     email:
